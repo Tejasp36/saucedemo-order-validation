@@ -6,9 +6,12 @@ from pages.checkout_page import CheckoutPage
 from pages.inventory_page import InventoryPage
 from pages.login_page import LoginPage
 from utils.price_parser import to_cents
+from pages.order_complete_page import OrderCompletePage
+
+EXPECTED_CONFIRMATION = "Thank you for your order!"
 
 
-def test_order_validation(driver):
+def test_order_validation(driver, download_dir):
     login_page = LoginPage(driver)
     login_page.open()
     login_page.login(
@@ -64,3 +67,12 @@ def test_order_validation(driver):
     expected_bill = item_total + expected_tax
     assert checkout_page.get_total() == expected_bill, \
         f"Total {checkout_page.get_total()} does not equal expected {expected_bill}"
+
+
+    checkout_page.finish_order()
+    order_complete_page = OrderCompletePage(driver)
+    assert order_complete_page.get_confirmation_text() == EXPECTED_CONFIRMATION, \
+        "Order completion message not shown after checkout"
+
+    pdf_path = order_complete_page.download_pdf(download_dir)
+    assert pdf_path.suffix == ".pdf", f"Downloaded file is not a PDF: {pdf_path.name}"

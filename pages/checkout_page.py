@@ -55,3 +55,6 @@ class CheckoutPage(BasePage):
         if amount != rounded:
             self.log.warning("Label %r is not a 2-decimal amount, using %s", label_text, rounded)
         return rounded
+
+    def finish_order(self) -> None:
+        self.click(self.FINISH_BUTTON)

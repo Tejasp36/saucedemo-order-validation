@@ -80,6 +80,17 @@ All settings are in `config/config.ini`:
 
 The environment variable `HEADLESS` (`true` or `false`) overrides `browser.headless`. CI uses it.
 
+## Credentials and secrets
+
+The login in `config/config.ini` (`standard_user` / `secret_sauce`) is the public demo account that SauceDemo prints on its own login page, and the assignment asks for the demo site's own test data. These values are not secrets, so I kept them in the config file to keep clone-and-run simple. The checkout data is dummy. No real personal data, card numbers or API keys are committed anywhere in this repository.
+
+On a real project I would not commit credentials:
+
+- Read them from environment variables, or from a git-ignored `.env` file, and commit a `.env.example` that lists only the variable names.
+- Store them in GitHub Secrets for CI and pass them to the job as environment variables.
+- Keep them out of logs and reports. The password is never logged: page objects log locators and the username only.
+- Rotate any secret that reaches git history. Deleting the line is not enough.
+
 ## Reports and logs
 
 After a run:

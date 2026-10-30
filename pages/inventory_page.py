@@ -37,3 +37,6 @@ class InventoryPage(BasePage):
 
     def get_cart_count(self) -> int:
         return int(self.get_text(self.CART_BADGE))
+
+    def open_cart(self) -> None:
+        self.click(self.CART_LINK)

@@ -1,6 +1,7 @@
 from config import config_reader
 from pages.inventory_page import InventoryPage
 from pages.login_page import LoginPage
+from pages.cart_page import CartPage
 
 
 def test_order_validation(driver):
@@ -22,3 +23,14 @@ def test_order_validation(driver):
     inventory_page.add_to_cart(highest)
     inventory_page.add_to_cart(lowest)
     assert inventory_page.get_cart_count() == 2, "Cart badge should show 2 items"
+
+    inventory_page.open_cart()
+    cart_items = CartPage(driver).get_items()
+    assert len(cart_items) == 2, "Cart should contain exactly 2 items"
+    assert {item.name for item in cart_items} == {highest.name, lowest.name}, \
+        "Cart items do not match the selected products"
+
+    cart_total = sum(item.price for item in cart_items)
+    expected_total = highest.price + lowest.price
+    assert cart_total == expected_total, \
+        f"Cart total {cart_total} does not equal highest + lowest price {expected_total}"

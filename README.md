@@ -6,7 +6,7 @@ Built for the Dyad Technologies QA Automation practical assessment (Scenario 1: 
 
 ## Tech stack
 
-- Python 3.11 or newer (CI runs 3.11 and 3.14)
+- Python 3.11 or newer (CI runs 3.11)
 - Selenium 4 (Selenium Manager downloads the matching ChromeDriver automatically)
 - PyTest, with pytest-html for the execution report
 - pypdf for reading the downloaded receipt
@@ -93,7 +93,7 @@ All three folders are generated and git-ignored.
 ## Project structure
 
 ```
-.github/workflows/tests.yml   CI: runs the suite on Python 3.11 and 3.14
+.github/workflows/tests.yml   CI: runs the suite on Python 3.11
 config/
   config.ini                  test data and settings
   config_reader.py            typed access to config.ini
@@ -156,4 +156,4 @@ No product names, prices or totals are hardcoded. They are read from the page at
 
 ## Continuous integration
 
-`.github/workflows/tests.yml` runs the suite headless on every push and pull request, on Python 3.11 and 3.14. The HTML report and logs are uploaded as run artifacts.
+`.github/workflows/tests.yml` runs the suite headless on every push and pull request, on Python 3.11. The HTML report and logs are uploaded as run artifacts.

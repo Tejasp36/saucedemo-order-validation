@@ -7,6 +7,7 @@ from pages.inventory_page import InventoryPage
 from pages.login_page import LoginPage
 from utils.price_parser import to_cents
 from pages.order_complete_page import OrderCompletePage
+from utils.pdf_reader import read_receipt
 
 EXPECTED_CONFIRMATION = "Thank you for your order!"
 
@@ -76,3 +77,21 @@ def test_order_validation(driver, download_dir):
 
     pdf_path = order_complete_page.download_pdf(download_dir)
     assert pdf_path.suffix == ".pdf", f"Downloaded file is not a PDF: {pdf_path.name}"
+
+    receipt = read_receipt(pdf_path)
+    assert set(receipt.items) == {highest, lowest}, \
+        f"PDF items {receipt.items} do not match selected products {[highest, lowest]}"
+    assert receipt.item_total == item_total, \
+        f"PDF item total {receipt.item_total} does not equal {item_total}"
+    assert receipt.tax == expected_tax, \
+        f"PDF tax {receipt.tax} does not equal {expected_tax}"
+    assert receipt.total == expected_bill, \
+        f"PDF bill amount {receipt.total} does not equal {expected_bill}"
+
+    ship_to_name = (
+        f"{config_reader.get_str('checkout', 'first_name')} "
+        f"{config_reader.get_str('checkout', 'last_name')}"
+    )
+    assert ship_to_name in receipt.text, f"Ship-to name {ship_to_name!r} not found in PDF"
+    assert config_reader.get_str("checkout", "postal_code") in receipt.text, \
+    "Ship-to postal code not found in PDF"

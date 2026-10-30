@@ -2,10 +2,10 @@ from decimal import Decimal
 
 from selenium.webdriver.common.by import By
 
-from pages.base_page import BasePage,Locator
-from utils.price_parser import parse_price
-from utils.product import Product
+from pages.base_page import BasePage, Locator
 from utils.price_parser import parse_price, to_cents
+from utils.product import Product
+
 
 class CheckoutPage(BasePage):
     FIRST_NAME_INPUT = (By.CSS_SELECTOR, "[data-test='firstName']")

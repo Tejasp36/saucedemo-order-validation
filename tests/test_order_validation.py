@@ -1,13 +1,13 @@
-from decimal import ROUND_HALF_UP, Decimal
+from decimal import Decimal
 
 from config import config_reader
 from pages.cart_page import CartPage
 from pages.checkout_page import CheckoutPage
 from pages.inventory_page import InventoryPage
 from pages.login_page import LoginPage
-from utils.price_parser import to_cents
 from pages.order_complete_page import OrderCompletePage
 from utils.pdf_reader import read_receipt
+from utils.price_parser import to_cents
 
 EXPECTED_CONFIRMATION = "Thank you for your order!"
 

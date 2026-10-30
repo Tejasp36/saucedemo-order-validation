@@ -22,3 +22,6 @@ class CartPage(BasePage):
         ]
         self.log.info("Cart contains %d items: %s", len(items), items)
         return items
+
+    def proceed_to_checkout(self) -> None:
+        self.click(self.CHECKOUT_BUTTON)

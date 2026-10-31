@@ -7,7 +7,6 @@ import pytest
 from pytest_html import extras
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.remote.webdriver import WebDriver
 
 from config import config_reader
 
@@ -26,7 +25,7 @@ def _is_headless() -> bool:
 @pytest.fixture
 def download_dir() -> Path:
     shutil.rmtree(DOWNLOAD_DIR, ignore_errors=True)
-    DOWNLOAD_DIR.mkdir(parents=True)
+    DOWNLOAD_DIR.mkdir(parents=True, exist_ok=True)
     return DOWNLOAD_DIR
 
 
@@ -45,7 +44,7 @@ def driver(download_dir: Path):
         "profile.password_manager_leak_detection": False,
     })
     log.info("Starting Chrome (headless=%s)", _is_headless())
-    browser: WebDriver = webdriver.Chrome(options=options)
+    browser = webdriver.Chrome(options=options)
     yield browser
     log.info("Closing Chrome")
     browser.quit()

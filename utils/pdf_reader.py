@@ -15,7 +15,7 @@ TOTAL_LABEL = "Total"
 SUMMARY_LABELS = frozenset({ITEM_TOTAL_LABEL, TAX_LABEL, TOTAL_LABEL})
 
 
-@dataclass(frozen=True)
+@dataclass()
 class Receipt:
     text: str
     items: list[Product]

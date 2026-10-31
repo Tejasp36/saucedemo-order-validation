@@ -13,13 +13,11 @@ class CartPage(BasePage):
 
     def get_items(self) -> list[Product]:
         self.find(self.CHECKOUT_BUTTON)
-        items = [
-            Product(
-                name=row.find_element(*self.ITEM_NAME).text,
-                price=parse_price(row.find_element(*self.ITEM_PRICE).text),
-            )
-            for row in self.find_all(self.CART_ITEMS)
-        ]
+        items = []
+        for row in self.find_all(self.CART_ITEMS):
+            name = row.find_element(*self.ITEM_NAME).text
+            price_text = row.find_element(*self.ITEM_PRICE).text
+            items.append(Product(name=name, price=parse_price(price_text)))
         self.log.info("Cart contains %d items: %s", len(items), items)
         return items
 

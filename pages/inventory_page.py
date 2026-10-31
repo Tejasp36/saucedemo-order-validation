@@ -17,13 +17,11 @@ class InventoryPage(BasePage):
         return self.is_displayed(self.CART_LINK)
 
     def get_products(self) -> list[Product]:
-        products = [
-            Product(
-                name=card.find_element(*self.ITEM_NAME).text,
-                price=parse_price(card.find_element(*self.ITEM_PRICE).text),
-            )
-            for card in self.find_all(self.ITEM_CARDS)
-        ]
+        products = []
+        for card in self.find_all(self.ITEM_CARDS):
+            name = card.find_element(*self.ITEM_NAME).text
+            price_text = card.find_element(*self.ITEM_PRICE).text
+            products.append(Product(name=name, price=parse_price(price_text)))
         self.log.info("Found %d products: %s", len(products), products)
         return products
 
